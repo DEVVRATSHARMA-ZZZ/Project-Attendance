@@ -1,14 +1,16 @@
 import express from "express";
 import mongoose from "mongoose";
+require("dotenv").config({ path: "./config.env" });
 import Attendancerouter from "./AttendanceSystem/routes.js";
 import Studentrouter from "./StudentsSystem/Routes.js";
 const app = express();
 app.use(express.json());
 
 mongoose
-  .connect(
-    "mongodb+srv://dev1234567zzz:9258013998@cluster0.ytokqug.mongodb.net"
-  )
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log(`mongodb connected`))
   .catch((err) => console.log(`mongodb error ${err}`));
 app.use("/api/students", Studentrouter);
